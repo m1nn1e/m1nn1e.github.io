@@ -2,20 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://m1nn1e.github.io/tags/keymapping/</loc>
-    <lastmod>2022-05-15T22:25:01+08:00</lastmod>
+    <loc>https://m1nn1e.github.io/tags/blog/</loc>
+    <lastmod>2022-05-15T22:48:25+08:00</lastmod>
+  </url><url>
+    <loc>https://m1nn1e.github.io/tags/frontend/</loc>
+    <lastmod>2022-05-15T22:48:25+08:00</lastmod>
+  </url><url>
+    <loc>https://m1nn1e.github.io/post/hugo-theme-github-modify/</loc>
+    <lastmod>2022-05-15T22:48:25+08:00</lastmod>
   </url><url>
     <loc>https://m1nn1e.github.io/post/</loc>
-    <lastmod>2022-05-15T22:25:01+08:00</lastmod>
+    <lastmod>2022-05-15T22:48:51+08:00</lastmod>
   </url><url>
     <loc>https://m1nn1e.github.io/tags/</loc>
-    <lastmod>2022-05-15T22:25:01+08:00</lastmod>
+    <lastmod>2022-05-15T22:48:51+08:00</lastmod>
+  </url><url>
+    <loc>https://m1nn1e.github.io/tags/keymapping/</loc>
+    <lastmod>2022-05-15T22:48:51+08:00</lastmod>
   </url><url>
     <loc>https://m1nn1e.github.io/tags/vim/</loc>
-    <lastmod>2022-05-15T22:25:01+08:00</lastmod>
+    <lastmod>2022-05-15T22:48:51+08:00</lastmod>
   </url><url>
     <loc>https://m1nn1e.github.io/post/vim-usage/</loc>
-    <lastmod>2022-05-15T22:25:01+08:00</lastmod>
+    <lastmod>2022-05-15T22:48:51+08:00</lastmod>
   </url><url>
     <loc>https://m1nn1e.github.io/page/archives/</loc>
     <lastmod>2022-05-15T15:08:01+08:00</lastmod>
