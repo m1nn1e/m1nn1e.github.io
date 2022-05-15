@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>keymapping on Minnie Clubhouse</title>
+    <link>https://m1nn1e.github.io/tags/keymapping/</link>
+    <description>Recent content in keymapping on Minnie Clubhouse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 15 May 2022 22:23:26 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/tags/keymapping/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vim常用快捷键使用记录</title>
+      <link>https://m1nn1e.github.io/post/vim-usage/</link>
+      <pubDate>Sun, 15 May 2022 22:23:26 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/vim-usage/</guid>
+      <description>&lt;p&gt;在刷算法的时候发现采用vim键盘方式码代码的大佬意外地多，之前总学了忘，考虑这次总结一些按自己的使用习惯来说常用的.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
