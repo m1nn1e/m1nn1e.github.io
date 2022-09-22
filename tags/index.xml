@@ -6,7 +6,34 @@
     <description>Recent content in Tags on Minnie Clubhouse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 23 Aug 2022 18:12:48 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Sep 2022 02:10:40 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>interview</title>
+      <link>https://m1nn1e.github.io/tags/interview/</link>
+      <pubDate>Sat, 10 Sep 2022 02:10:40 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/interview/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pentest</title>
+      <link>https://m1nn1e.github.io/tags/pentest/</link>
+      <pubDate>Sat, 10 Sep 2022 02:10:40 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/pentest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web</title>
+      <link>https://m1nn1e.github.io/tags/web/</link>
+      <pubDate>Sat, 10 Sep 2022 02:10:40 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/web/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>git_repo</title>
       <link>https://m1nn1e.github.io/tags/git_repo/</link>
@@ -17,11 +44,74 @@
     </item>
     
     <item>
-      <title>job</title>
-      <link>https://m1nn1e.github.io/tags/job/</link>
-      <pubDate>Tue, 23 Aug 2022 18:12:48 +0800</pubDate>
+      <title>fuzz</title>
+      <link>https://m1nn1e.github.io/tags/fuzz/</link>
+      <pubDate>Mon, 18 Jul 2022 09:39:28 +0800</pubDate>
       
-      <guid>https://m1nn1e.github.io/tags/job/</guid>
+      <guid>https://m1nn1e.github.io/tags/fuzz/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://m1nn1e.github.io/tags/golang/</link>
+      <pubDate>Mon, 18 Jul 2022 09:39:28 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>paper_note</title>
+      <link>https://m1nn1e.github.io/tags/paper_note/</link>
+      <pubDate>Mon, 18 Jul 2022 09:39:28 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/paper_note/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vul_analysis</title>
+      <link>https://m1nn1e.github.io/tags/vul_analysis/</link>
+      <pubDate>Thu, 14 Jul 2022 12:09:13 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/vul_analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vuln_analysis</title>
+      <link>https://m1nn1e.github.io/tags/vuln_analysis/</link>
+      <pubDate>Thu, 23 Jun 2022 18:12:48 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/vuln_analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>interest</title>
+      <link>https://m1nn1e.github.io/tags/interest/</link>
+      <pubDate>Tue, 24 May 2022 20:27:01 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/interest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>llvm</title>
+      <link>https://m1nn1e.github.io/tags/llvm/</link>
+      <pubDate>Tue, 24 May 2022 19:34:59 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/llvm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tools</title>
+      <link>https://m1nn1e.github.io/tags/tools/</link>
+      <pubDate>Tue, 24 May 2022 19:34:59 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/tags/tools/</guid>
       <description></description>
     </item>
     
@@ -35,11 +125,11 @@
     </item>
     
     <item>
-      <title>frontend</title>
-      <link>https://m1nn1e.github.io/tags/frontend/</link>
+      <title>hugo</title>
+      <link>https://m1nn1e.github.io/tags/hugo/</link>
       <pubDate>Sun, 15 May 2022 22:19:13 +0800</pubDate>
       
-      <guid>https://m1nn1e.github.io/tags/frontend/</guid>
+      <guid>https://m1nn1e.github.io/tags/hugo/</guid>
       <description></description>
     </item>
     

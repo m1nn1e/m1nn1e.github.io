@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>golang on Minnie Clubhouse</title>
+    <link>https://m1nn1e.github.io/tags/golang/</link>
+    <description>Recent content in golang on Minnie Clubhouse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 18 Jul 2022 09:39:28 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[论文笔记] GFuzz</title>
+      <link>https://m1nn1e.github.io/post/gfuzz/</link>
+      <pubDate>Mon, 18 Jul 2022 09:39:28 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/gfuzz/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Title:&lt;/strong&gt; Who Goes First? Detecting Go Concurrency Bugs via Message Reordering&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt; GFuzz&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Journal/Conference:&lt;/strong&gt; ASPLOS&#39;22&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://songlh.github.io/paper/gfuzz.pdf&#34;&gt;PDF&lt;/a&gt; | &lt;a href=&#34;https://www.youtube.com/watch?v=-m632JS0f20&#34;&gt;VIDEO&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

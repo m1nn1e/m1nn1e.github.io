@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>interview on Minnie Clubhouse</title>
+    <link>https://m1nn1e.github.io/tags/interview/</link>
+    <description>Recent content in interview on Minnie Clubhouse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 10 Sep 2022 02:10:40 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/tags/interview/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>渗透测试行为清单</title>
+      <link>https://m1nn1e.github.io/post/pentest_list/</link>
+      <pubDate>Sat, 10 Sep 2022 02:10:40 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/pentest_list/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;渗透测试简单来说是安全人员模拟黑客入侵的方式，评估目标安全防御能力的行为。根据测试人员获取信息的多少，可分为黑盒、白盒、灰盒三种类型。（ING）&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>2023秋招面经</title>
+      <link>https://m1nn1e.github.io/post/interview_2023/</link>
+      <pubDate>Tue, 23 Aug 2022 18:12:48 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/interview_2023/</guid>
+      <description>OTHERS  收集各个渠道的相关面经
+ SELF  等结束再说。。失业危机了属于是
+ </description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>vul_analysis on Minnie Clubhouse</title>
+    <link>https://m1nn1e.github.io/tags/vul_analysis/</link>
+    <description>Recent content in vul_analysis on Minnie Clubhouse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 14 Jul 2022 12:09:13 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/tags/vul_analysis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GifIndexToTrueColor某堆溢出漏洞分析</title>
+      <link>https://m1nn1e.github.io/post/gifindextotruecolor/</link>
+      <pubDate>Thu, 14 Jul 2022 12:09:13 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/gifindextotruecolor/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;漏洞描述&lt;/strong&gt;: 索引方式的gif图转成true color(rgb)格式时由于&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;状态:&lt;/strong&gt; 分析中&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;类型:&lt;/strong&gt; heap, 堆溢出&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <script
+    type="application/javascript"
+    src='https://m1nn1e.github.io/js/theme-mode.js'
+  ></script>
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/frameworks.min.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/github.min.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/github-style.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/light.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/dark.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/syntax.css' />
+  
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/tocbot.css' />
+
+  <title>
+    GifIndexToTrueColor某堆溢出漏洞分析 - Minnie Clubhouse
+  </title>
+  
+  <link rel="icon" type="image/x-icon" href="/images/github.png" />
+  
+  <meta name="theme-color" content="#1e2327" />
+
+  
+  <meta
+  name="description"
+  content=" 漏洞描述: 索引方式的gif图转成true color(rgb)格式时由于
+状态: 分析中
+类型: heap, 堆溢出
+"
+/>
+<meta
+  name="keywords"
+  content='blog, security, binary, OS'
+/>
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://m1nn1e.github.io/post/gifindextotruecolor/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta
+  name="twitter:title"
+  content="GifIndexToTrueColor某堆溢出漏洞分析 - Minnie Clubhouse"
+/>
+<meta
+  name="twitter:description"
+  content=" 漏洞描述: 索引方式的gif图转成true color(rgb)格式时由于
+状态: 分析中
+类型: heap, 堆溢出
+"
+/>
+<meta name="twitter:site" content="https://m1nn1e.github.io/" />
+<meta name="twitter:creator" content="" />
+<meta
+  name="twitter:image"
+  content="https://m1nn1e.github.io/"
+/>
+
+
+<meta
+  property="og:type"
+  content="article"
+/>
+<meta
+  property="og:title"
+  content="GifIndexToTrueColor某堆溢出漏洞分析 - Minnie Clubhouse"
+/>
+<meta
+  property="og:description"
+  content=" 漏洞描述: 索引方式的gif图转成true color(rgb)格式时由于
+状态: 分析中
+类型: heap, 堆溢出
+"
+/>
+<meta property="og:url" content="https://m1nn1e.github.io/post/gifindextotruecolor/" />
+<meta property="og:site_name" content="GifIndexToTrueColor某堆溢出漏洞分析" />
+<meta
+  property="og:image"
+  content="https://m1nn1e.github.io/"
+/>
+<meta property="og:image:width" content="2048" />
+<meta property="og:image:height" content="1024" />
+
+<meta property="article:published_time" content="2022-07-14 12:09:13 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://m1nn1e.github.io/">
+        <svg class="octicon" height="32" viewBox="0 0 16 16" version="1.1" width="32">
+          <path fill-rule="evenodd"
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+          </path>
+        </svg>
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd"
+            d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          <form target="_blank" action="https://www.google.com/search" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+              <input type="hidden" name="q" value="site:https://m1nn1e.github.io/">
+            </label>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="https://m1nn1e.github.io/">
+        <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1"
+          width="32">
+          <path fill-rule="evenodd"
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+          </path>
+        </svg>
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+   <div style="position: relative">
+    <main>
+        <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+            <div class="px-0">
+              <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+                <div class="flex-auto min-width-0 width-fit mr-3">
+                  <div class="d-flex">
+                    <div class="d-none d-md-block">
+                      <a class="avatar mr-2 flex-shrink-0" href="https://m1nn1e.github.io/">
+                        <img class=" avatar-user"
+                          src="https://m1nn1e.github.io/images/avatar.png"
+                          width="32" height="32"></a>
+                    </div>
+
+<div class="d-flex flex-column">
+    <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+        <span class="author" id="breadcrumbs">
+            <a href="/">Home</a><strong><span class="path-divider">/</span><a href="/post/gifindextotruecolor">GifIndexToTrueColor某堆溢出漏洞分析</a></strong></span>
+        
+    </h1>
+    <div class="note m-0">
+      Created <relative-time datetime="Thu, 14 Jul 2022 12:09:13 &#43;0800"
+        class="no-wrap">
+        Thu, 14 Jul 2022 12:09:13 &#43;0800</relative-time>
+
+      
+      <span class="file-info-divider"></span>
+      Modified <relative-time datetime="Fri, 23 Sep 2022 03:39:03 &#43;0800"
+        class="no-wrap">
+        Fri, 23 Sep 2022 03:39:03 &#43;0800</relative-time>
+      
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div> 
+<div class="js-toc-content">
+  
+  <div style="position: relative;">
+          <div class="container-lg px-3 new-discussion-timeline" >
+            
+            <div class="repository-content gist-content">
+              <div>
+                <div class="js-gist-file-update-container js-task-list-container file-box">
+                  <div id="file-pytest" class="file my-2">
+                    <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                      <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto" style="text-align: left;">
+                        <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                          
+                          <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                            <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                              <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                            </svg>
+                          </summary>
+                          <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                            <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                              <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                              </div>
+                            </div>
+                          </details-menu>
+                            3159 Words
+                          
+      
+                        </div>
+                        <div class="file-actions flex-order-2 pt-0">
+                          
+                          
+                          <a class="muted-link mr-3" href="/tags/vul_analysis">
+                            <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
+                              <path fill-rule="evenodd"
+                                d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
+                              </path>
+                            </svg>
+                            vul_analysis
+                          </a>
+                          
+                          
+                        </div>
+                      </div>
+                    </div>
+      
+      
+                    <div class="Box-body px-5 pb-5" style="z-index: 1">
+                      <article class="markdown-body entry-content container-lg"><blockquote>
+<p><strong>漏洞描述</strong>: 索引方式的gif图转成true color(rgb)格式时由于</p>
+<p><strong>状态:</strong> 分析中</p>
+<p><strong>类型:</strong> heap, 堆溢出</p>
+</blockquote>
+<h2 id="0x00-漏洞摘要">0x00 漏洞摘要</h2>
+<ul>
+<li><strong>漏洞复现OS：</strong> Ubuntu 16.04（只包含栈溢出）</li>
+<li><strong>漏洞类型:</strong> 堆溢出Heap Overflow</li>
+<li><strong>crash原因：</strong><code>gif2tga</code>程序中，读取gif图片后，rgb三色TrueColor可用于存储图片中每个pixel的颜色，<code>gif</code>图的<code>palette</code>部分记录所有颜色，存储在binary文件中某个范围二进制数据内。在模式设置为<code>MODE_INDEX</code>时，通过调用<code>GifIndexToTrueColor</code>依次获取gif图每个<code>img</code>中每个索引对应<code>pixel</code>的<code>rgb</code>值，在此期间出现溢出问题。</li>
+</ul>
+<h2 id="0x01-漏洞复现">0x01 漏洞复现</h2>
+<h3 id="环境配置">环境配置</h3>
+<p>在Ubuntu 16.04LTS下进行复现和分析</p>
+<ul>
+<li>
+<p>关闭ASLR：<code>su; echo 0 &gt; /proc/sys/kernel/randomize_va_space</code></p>
+</li>
+<li>
+<p>编译漏洞程序<code>gif2tga</code></p>
+</li>
+<li>
+<p>运行<code>SRC_asan/build/bin/gif2tga --outbase /dev/null ./POC_rc-awd-q3</code></p>
+</li>
+<li>
+<p>ASAN 报告</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="o">=================================================================</span>
+<span class="o">==</span><span class="mi">29835</span><span class="o">==</span><span class="nl">ERROR</span><span class="p">:</span> <span class="nl">AddressSanitizer</span><span class="p">:</span> <span class="n">heap</span><span class="o">-</span><span class="n">buffer</span><span class="o">-</span><span class="n">overflow</span> <span class="n">on</span> <span class="n">address</span> <span class="mh">0x60300000003c</span> <span class="n">at</span> <span class="n">pc</span> <span class="mh">0x555555557ff4</span> <span class="n">bp</span> <span class="mh">0x7fffffff8d50</span> <span class="n">sp</span> <span class="mh">0x7fffffff8d48</span>
+<span class="n">READ</span> <span class="n">of</span> <span class="n">size</span> <span class="mi">1</span> <span class="n">at</span> <span class="mh">0x60300000003c</span> <span class="kr">thread</span> <span class="n">T0</span>
+    <span class="cp">#0 0x555555557ff3 in GifIndexToTrueColor /home/user/share/test/test/ngiflib/SRC_asan/ngiflib.c:821
+</span><span class="cp"></span>    <span class="cp">#1 0x55555555a2d3 in WritePixel /home/user/share/test/test/ngiflib/SRC_asan/ngiflib.c:124
+</span><span class="cp"></span>    <span class="cp">#2 0x55555555a2d3 in DecodeGifImg /home/user/share/test/test/ngiflib/SRC_asan/ngiflib.c:537
+</span><span class="cp"></span>    <span class="cp">#3 0x55555555c5bb in LoadGif /home/user/share/test/test/ngiflib/SRC_asan/ngiflib.c:802
+</span><span class="cp"></span>    <span class="cp">#4 0x55555555724a in main /home/user/share/test/test/ngiflib/SRC_asan/gif2tga.c:95
+</span><span class="cp"></span>    <span class="cp">#5 0x7ffff704609a in __libc_start_main ../csu/libc-start.c:308
+</span><span class="cp"></span>    <span class="cp">#6 0x55555555654d in _start (/home/miner/MINER/Projects/GifIndexToTrueColor-HBO/SRC_asan/build/bin/gif2tga+0x254d)
+</span><span class="cp"></span>
+<span class="mh">0x60300000003c</span> <span class="n">is</span> <span class="n">located</span> <span class="mi">20</span> <span class="n">bytes</span> <span class="n">to</span> <span class="n">the</span> <span class="n">right</span> <span class="n">of</span> <span class="mi">24</span><span class="o">-</span><span class="n">byte</span> <span class="n">region</span> <span class="p">[</span><span class="mh">0x603000000010</span><span class="p">,</span><span class="mh">0x603000000028</span><span class="p">)</span>
+<span class="n">allocated</span> <span class="n">by</span> <span class="kr">thread</span> <span class="n">T0</span> <span class="nl">here</span><span class="p">:</span>
+    <span class="cp">#0 0x7ffff72cc330 in __interceptor_malloc (/lib/x86_64-linux-gnu/libasan.so.5+0xe9330)
+</span><span class="cp"></span>    <span class="cp">#1 0x55555555b497 in LoadGif /home/user/share/test/test/ngiflib/SRC_asan/ngiflib.c:645
+</span><span class="cp"></span>    <span class="cp">#2 0x55555555724a in main /home/user/share/test/test/ngiflib/SRC_asan/gif2tga.c:95
+</span><span class="cp"></span>    <span class="cp">#3 0x7ffff704609a in __libc_start_main ../csu/libc-start.c:308
+</span><span class="cp"></span>
+<span class="nl">SUMMARY</span><span class="p">:</span> <span class="nl">AddressSanitizer</span><span class="p">:</span> <span class="n">heap</span><span class="o">-</span><span class="n">buffer</span><span class="o">-</span><span class="n">overflow</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">user</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">test</span><span class="o">/</span><span class="n">ngiflib</span><span class="o">/</span><span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">821</span> <span class="n">in</span> <span class="n">GifIndexToTrueColor</span>
+<span class="n">Shadow</span> <span class="n">bytes</span> <span class="n">around</span> <span class="n">the</span> <span class="n">buggy</span> <span class="nl">address</span><span class="p">:</span>
+  <span class="mh">0x0c067fff7fb0</span><span class="o">:</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>
+  <span class="mh">0x0c067fff7fc0</span><span class="o">:</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>
+  <span class="mh">0x0c067fff7fd0</span><span class="o">:</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>
+  <span class="mh">0x0c067fff7fe0</span><span class="o">:</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>
+  <span class="mh">0x0c067fff7ff0</span><span class="o">:</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span>
+<span class="o">=&gt;</span><span class="mh">0x0c067fff8000</span><span class="o">:</span> <span class="n">fa</span> <span class="n">fa</span> <span class="mo">00</span> <span class="mo">00</span> <span class="mo">00</span> <span class="n">fa</span> <span class="n">fa</span><span class="p">[</span><span class="n">fa</span><span class="p">]</span><span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span>
+  <span class="mh">0x0c067fff8010</span><span class="o">:</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span>
+  <span class="mh">0x0c067fff8020</span><span class="o">:</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span>
+  <span class="mh">0x0c067fff8030</span><span class="o">:</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span>
+  <span class="mh">0x0c067fff8040</span><span class="o">:</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span>
+  <span class="mh">0x0c067fff8050</span><span class="o">:</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span> <span class="n">fa</span>
+<span class="n">Shadow</span> <span class="n">byte</span> <span class="n">legend</span> <span class="p">(</span><span class="n">one</span> <span class="n">shadow</span> <span class="n">byte</span> <span class="n">represents</span> <span class="mi">8</span> <span class="n">application</span> <span class="n">bytes</span><span class="p">)</span><span class="o">:</span>
+  <span class="nl">Addressable</span><span class="p">:</span>           <span class="mo">00</span>
+  <span class="n">Partially</span> <span class="nl">addressable</span><span class="p">:</span> <span class="mo">01</span> <span class="mo">02</span> <span class="mo">03</span> <span class="mo">04</span> <span class="mo">05</span> <span class="mo">06</span> <span class="mo">07</span> 
+  <span class="n">Heap</span> <span class="n">left</span> <span class="nl">redzone</span><span class="p">:</span>       <span class="n">fa</span>
+  <span class="n">Freed</span> <span class="n">heap</span> <span class="nl">region</span><span class="p">:</span>       <span class="n">fd</span>
+  <span class="n">Stack</span> <span class="n">left</span> <span class="nl">redzone</span><span class="p">:</span>      <span class="n">f1</span>
+  <span class="n">Stack</span> <span class="n">mid</span> <span class="nl">redzone</span><span class="p">:</span>       <span class="n">f2</span>
+  <span class="n">Stack</span> <span class="n">right</span> <span class="nl">redzone</span><span class="p">:</span>     <span class="n">f3</span>
+  <span class="n">Stack</span> <span class="n">after</span> <span class="k">return</span><span class="o">:</span>      <span class="n">f5</span>
+  <span class="n">Stack</span> <span class="n">use</span> <span class="n">after</span> <span class="nl">scope</span><span class="p">:</span>   <span class="n">f8</span>
+  <span class="n">Global</span> <span class="nl">redzone</span><span class="p">:</span>          <span class="n">f9</span>
+  <span class="n">Global</span> <span class="n">init</span> <span class="nl">order</span><span class="p">:</span>       <span class="n">f6</span>
+  <span class="n">Poisoned</span> <span class="n">by</span> <span class="nl">user</span><span class="p">:</span>        <span class="n">f7</span>
+  <span class="n">Container</span> <span class="nl">overflow</span><span class="p">:</span>      <span class="n">fc</span>
+  <span class="n">Array</span> <span class="nl">cookie</span><span class="p">:</span>            <span class="n">ac</span>
+  <span class="n">Intra</span> <span class="n">object</span> <span class="nl">redzone</span><span class="p">:</span>    <span class="n">bb</span>
+  <span class="n">ASan</span> <span class="nl">internal</span><span class="p">:</span>           <span class="n">fe</span>
+  <span class="n">Left</span> <span class="n">alloca</span> <span class="nl">redzone</span><span class="p">:</span>     <span class="n">ca</span>
+  <span class="n">Right</span> <span class="n">alloca</span> <span class="nl">redzone</span><span class="p">:</span>    <span class="n">cb</span>
+<span class="o">==</span><span class="mi">29835</span><span class="o">==</span><span class="n">ABORTING</span>
+</code></pre></div></li>
+</ul>
+<p>成功复现</p>
+<h2 id="0x02-漏洞机理">0x02 漏洞机理</h2>
+<h3 id="源码跟踪">源码跟踪</h3>
+<blockquote>
+<p>程序比较精简，有效源码只有<code>gif2tga.c</code>、<code>ngiflib.c</code>、<code>ngiflibSDL.c</code>、<code>SDLaffgif.c</code>四个</p>
+</blockquote>
+<ul>
+<li>
+<p><code>ngiflib_gif</code>数据结构（存储整个gif信息）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">ngiflib_gif</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">first_img</span><span class="p">;</span>  <span class="c1">// 静态图片头
+</span><span class="c1"></span>	<span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">cur_img</span><span class="p">;</span> <span class="c1">// 当前图片
+</span><span class="c1"></span>	<span class="k">struct</span> <span class="nc">ngiflib_rgb</span> <span class="o">*</span> <span class="n">palette</span><span class="p">;</span> <span class="c1">// 颜色版
+</span><span class="c1"></span>	<span class="k">union</span> <span class="p">{</span>
+<span class="cp">#ifndef NGIFLIB_NO_FILE
+</span><span class="cp"></span>		<span class="n">FILE</span> <span class="o">*</span> <span class="n">file</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="cm">/* NGIFLIB_NO_FILE */</span><span class="cp">
+</span><span class="cp"></span>		<span class="k">const</span> <span class="n">u8</span> <span class="o">*</span> <span class="n">bytes</span><span class="p">;</span>
+	<span class="p">}</span> <span class="n">input</span><span class="p">;</span>	<span class="cm">/* used by GetByte */</span>
+	<span class="k">union</span> <span class="nc">ngiflib_pixpointer</span> <span class="n">frbuff</span><span class="p">;</span>	<span class="cm">/* frame buffer    */</span>
+<span class="cp">#ifndef NGIFLIB_NO_FILE
+</span><span class="cp"></span>	<span class="n">FILE</span> <span class="o">*</span> <span class="n">log</span><span class="p">;</span>		<span class="cm">/* to output log   */</span>
+<span class="cp">#endif </span><span class="cm">/* NGIFLIB_NO_FILE */</span><span class="cp">
+</span><span class="cp">#ifdef NGIFLIB_ENABLE_CALLBACKS
+</span><span class="cp"></span>	<span class="n">ngiflib_palette_cb</span> <span class="n">palette_cb</span><span class="p">;</span>
+	<span class="n">ngiflib_line_cb</span> <span class="n">line_cb</span><span class="p">;</span>
+	<span class="cm">/* void * priv; */</span>
+<span class="cp">#endif </span><span class="cm">/* NGIFLIB_ENABLE_CALLBACKS */</span><span class="cp">
+</span><span class="cp"></span>	<span class="kt">int</span> <span class="n">nimg</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">netscape_loop_count</span><span class="p">;</span>	<span class="cm">/* from netscape animation extension */</span>
+	<span class="n">u16</span> <span class="n">ncolors</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">width</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">height</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">backgroundindex</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">pixaspectratio</span><span class="p">;</span>	<span class="cm">/* width/height = (pixaspectratio + 15) / 64 */</span>
+	<span class="n">u8</span> <span class="n">imgbits</span><span class="p">;</span> <span class="c1">// 总比特大小
+</span><span class="c1"></span>	<span class="n">u8</span> <span class="n">colorresolution</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">sort_flag</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">mode</span><span class="p">;</span> <span class="cm">/* voir avant */</span> <span class="c1">// NNGIFLIB_MODE_TRUE_COLOR
+</span><span class="c1"></span>	<span class="n">u8</span> <span class="n">signature</span><span class="p">[</span><span class="mi">7</span><span class="p">];</span>	<span class="cm">/* 0 terminated  !=) */</span>
+<span class="p">};</span>
+</code></pre></div></li>
+<li>
+<p><code>ngiflib_img</code>数据结构（按序的一张张静态图，单向链表形式存储）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">next</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">ngiflib_gif</span> <span class="o">*</span> <span class="n">parent</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">ngiflib_rgb</span> <span class="o">*</span> <span class="n">palette</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="nc">ngiflib_gce</span> <span class="n">gce</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">ncolors</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">width</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">height</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">posX</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">posY</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">interlaced</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">sort_flag</span><span class="p">;</span>		<span class="cm">/* is local palette sorted by color frequency ? */</span>
+	<span class="n">u8</span> <span class="n">localpalbits</span><span class="p">;</span>	<span class="cm">/* bits/pixel ! (de 1 a 8) */</span>
+	<span class="n">u8</span> <span class="n">imgbits</span><span class="p">;</span>	<span class="cm">/* bits mini du code LZW (de 2 a 9 ?) */</span>
+<span class="p">};</span>
+</code></pre></div></li>
+<li>
+<p><code>ngiflib_decode_context</code>数据结构（解密之后的context）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">union</span> <span class="nc">ngiflib_pixpointer</span> <span class="p">{</span>
+	<span class="n">u8</span> <span class="o">*</span> <span class="n">p8</span><span class="p">;</span>
+<span class="cp">#ifndef NGIFLIB_INDEXED_ONLY
+</span><span class="cp"></span>	<span class="n">u32</span> <span class="o">*</span> <span class="n">p32</span><span class="p">;</span>
+<span class="cp">#endif </span><span class="cm">/* NGIFLIB_INDEXED_ONLY */</span><span class="cp">
+</span><span class="cp"></span><span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">ngiflib_decode_context</span> <span class="p">{</span>
+	<span class="k">union</span> <span class="nc">ngiflib_pixpointer</span> <span class="n">frbuff_p</span><span class="p">;</span>	<span class="cm">/* current offset in frame buffer */</span>
+<span class="cp">#ifdef NGIFLIB_ENABLE_CALLBACKS
+</span><span class="cp"></span>	<span class="k">union</span> <span class="nc">ngiflib_pixpointer</span> <span class="n">line_p</span><span class="p">;</span>	<span class="cm">/* start of line pointer */</span>
+<span class="cp">#endif </span><span class="cm">/* NGIFLIB_ENABLE_CALLBACKS */</span><span class="cp">
+</span><span class="cp"></span>	<span class="k">const</span> <span class="n">u8</span> <span class="o">*</span> <span class="n">srcbyte</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">Xtogo</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">curY</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">lbyte</span><span class="p">;</span>
+	<span class="n">u16</span> <span class="n">max</span><span class="p">;</span>	<span class="cm">/* maximum value = (1 &lt;&lt; nbbit) - 1 */</span>
+	<span class="n">u8</span> <span class="n">pass</span><span class="p">;</span>	<span class="cm">/* current pass of interlaced image decoding */</span>
+	<span class="n">u8</span> <span class="n">restbyte</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">nbbit</span><span class="p">;</span>	<span class="cm">/* bits courants du code LZW */</span>
+	<span class="n">u8</span> <span class="n">restbits</span><span class="p">;</span>
+	<span class="n">u8</span> <span class="n">byte_buffer</span><span class="p">[</span><span class="mi">256</span><span class="p">];</span>	<span class="cm">/* for get word */</span>
+<span class="p">};</span>
+</code></pre></div></li>
+<li>
+<p>了解input → 越界读位置</p>
+<ul>
+<li>
+<p>首先开始运行程序，调用<code>main</code>函数（gif2tga.c:11）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">outbase</span> <span class="o">=</span> <span class="s">&#34;/dev/null&#34;</span>
+
+<span class="c1">//  为接下来写入gif申请空间并清零
+</span><span class="c1"></span><span class="n">gif</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_gif</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_gif</span><span class="p">));</span>
+<span class="n">memset</span><span class="p">(</span><span class="n">gif</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_gif</span><span class="p">));</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">indexed</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">//因此此时git-&gt;mode为NGIFLIB_MODE_INDEXED模式
+</span><span class="c1"></span>		<span class="n">gif</span><span class="o">-&gt;</span><span class="n">mode</span> <span class="o">|=</span> <span class="n">NGIFLIB_MODE_INDEXED</span><span class="p">;</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">&#34;INDEXED MODE</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">);</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="n">gif</span><span class="o">-&gt;</span><span class="n">mode</span> <span class="o">|=</span> <span class="n">NGIFLIB_MODE_TRUE_COLOR</span><span class="p">;</span>
+</code></pre></div></li>
+<li>
+<p>main函数中调用<code>LoadGif</code>函数加载Gif图像（gif2tga.c:95）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="cm">/* MAIN LOOP */</span>
+	<span class="k">do</span> <span class="p">{</span>
+	  <span class="n">err</span> <span class="o">=</span> <span class="n">LoadGif</span><span class="p">(</span><span class="n">gif</span><span class="p">);</span> <span class="cm">/* en retour 0=fini, 1=une image decodee, -1=ERREUR */</span>
+	  <span class="n">printf</span><span class="p">(</span><span class="s">&#34;LoadGif() returned %d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">err</span><span class="p">);</span>
+
+	  <span class="k">if</span><span class="p">(</span><span class="n">err</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+	  	<span class="kt">int</span> <span class="n">localpalsize</span><span class="p">;</span>
+</code></pre></div><ul>
+<li>循环方式加载GIF，<code>LoadGif</code>返回值<code>err</code>为<code>1</code>时错误并终止程序</li>
+</ul>
+</li>
+<li>
+<p><code>LoadGif</code>函数当加载到<code>sign</code>值为<code>0x2C</code>时(图像分割)，调用<code>DecodeGifImg</code>函数解码gif图像，否则失败；若成功则继续往下调用<code>GetByte</code>函数，当为0时终结（ngiflib.c:802）———— TODO <strong>注意</strong>POC的gif image values格式跟<a href="https://en.wikipedia.org/wiki/GIF#File_format">https://en.wikipedia.org/wiki/GIF#File_format</a>里介绍格式有点对不上。。这个软件的lib库的代码也不长，干脆直接看着poc对照分析。</p>
+<ul>
+<li><code>GetWord</code>函数读取2字节-4位16进制数</li>
+<li><code>GetByte</code>函数读取1字节—2位16进制数</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">switch</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 循环读取sign
+</span><span class="c1"></span>		<span class="k">case</span> <span class="mh">0x3B</span><span class="o">:</span>	<span class="cm">/* END OF GIF */</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+		<span class="c1">// ...
+</span><span class="c1"></span>		<span class="k">case</span> <span class="mh">0x2C</span><span class="o">:</span>	<span class="cm">/* Image separator 图像分割*/</span>
+			<span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span> <span class="o">=</span> <span class="n">ngiflib_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span><span class="p">));</span>
+			<span class="c1">// cur_img指当前img，malloc申请空间
+</span><span class="c1"></span>				<span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">2</span><span class="p">;</span>    <span class="cm">/* memory error */</span>
+				<span class="n">g</span><span class="o">-&gt;</span><span class="n">first_img</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="p">;</span> <span class="c1">// 第一个img为链表头
+</span><span class="c1"></span>			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span> <span class="c1">// 以链表形式存储，next指向下个img
+</span><span class="c1"></span>				<span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">=</span> <span class="n">ngiflib_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span><span class="p">));</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="o">-&gt;</span><span class="n">next</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">2</span><span class="p">;</span> <span class="cm">/* memory error */</span>
+				<span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span> <span class="o">=</span> <span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="o">-&gt;</span><span class="n">next</span><span class="p">;</span>
+			<span class="p">}</span>
+			<span class="c1">// 内存数据清零
+</span><span class="c1"></span>			<span class="n">ngiflib_memset</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span><span class="p">));</span>
+			<span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="o">-&gt;</span><span class="n">parent</span> <span class="o">=</span> <span class="n">g</span><span class="p">;</span> <span class="c1">// g是父img
+</span><span class="c1"></span>			<span class="k">if</span><span class="p">(</span><span class="n">gce</span><span class="p">.</span><span class="n">gce_present</span><span class="p">)</span> <span class="p">{</span>
+				<span class="n">ngiflib_memcpy</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="o">-&gt;</span><span class="n">gce</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">gce</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_gce</span><span class="p">));</span>
+			<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+				<span class="n">ngiflib_memset</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="o">-&gt;</span><span class="n">gce</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>  <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_gce</span><span class="p">));</span>
+			<span class="p">}</span>
+			<span class="c1">// 解码当前gif图，若成功则记录成功gif图数量
+</span><span class="c1"></span>			<span class="k">if</span> <span class="p">(</span><span class="n">DecodeGifImg</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+			<span class="n">g</span><span class="o">-&gt;</span><span class="n">nimg</span><span class="o">++</span><span class="p">;</span>
+			<span class="c1">// 不断读取到g图的最后
+</span><span class="c1"></span>			<span class="n">tmp</span> <span class="o">=</span> <span class="n">GetByte</span><span class="p">(</span><span class="n">g</span><span class="p">);</span><span class="cm">/* 读取gif下一个字节，final最后要为0则结束 */</span>
+</code></pre></div></li>
+<li>
+<p><code>DecodeGifImg</code>函数判断若<code>act_code</code>为<code>clr</code>且<code>npix&gt;0</code>(该img有像素)，调用<code>WritePixel</code>函数写像素（ngiflib.c:537）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">static</span> <span class="kt">int</span> <span class="nf">DecodeGifImg</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span> 
+	<span class="n">u16</span> <span class="n">act_code</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">imgbits</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>	<span class="cm">/* fix for 1bit images ? */</span>
+		<span class="n">i</span><span class="o">-&gt;</span><span class="n">imgbits</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 图片比特数
+</span><span class="c1"></span>	<span class="p">}</span>
+	<span class="n">clr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="o">-&gt;</span><span class="n">imgbits</span><span class="p">;</span> <span class="c1">// 当前静态img的比特数×2
+</span><span class="c1"></span>	<span class="n">eof</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="n">free</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="c1">// ...
+</span><span class="c1"></span>	<span class="c1">// 返回变长的LZW代码(已解压)给contex，最大长度给act_code
+</span><span class="c1"></span>	<span class="n">act_code</span> <span class="o">=</span> <span class="n">GetGifWord</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">context</span><span class="p">);</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">act_code</span><span class="o">==</span><span class="n">clr</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// clear
+</span><span class="c1"></span>		<span class="c1">// ...
+</span><span class="c1"></span>		<span class="n">act_code</span> <span class="o">=</span> <span class="n">GetGifWord</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">context</span><span class="p">);</span>
+		<span class="n">casspecial</span> <span class="o">=</span> <span class="p">(</span><span class="n">u8</span><span class="p">)</span><span class="n">act_code</span><span class="p">;</span>
+		<span class="c1">// ...
+</span><span class="c1"></span>		<span class="c1">// 像素数 &gt; 0，写入到context
+</span><span class="c1"></span>		<span class="k">if</span><span class="p">(</span><span class="n">npix</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">WritePixel</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">context</span><span class="p">,</span> <span class="n">casspecial</span><span class="p">);</span>
+		<span class="n">npix</span><span class="o">--</span><span class="p">;</span> <span class="c1">// 写入完成后，删除
+</span><span class="c1"></span>	<span class="c1">// ...
+</span></code></pre></div><ul>
+<li><code>act_code</code>是什么？
+<ul>
+<li>
+<p>通过调用<code>GetGifWord</code>函数返回值获取，为了可以应用正确的掩码以消除多余的位（即<code>act_code</code>为当前img图像<code>i</code>的最大值<code>context.max</code>，使得img中每个<code>context</code>值都可以存放进）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="c1">// gif中的数据原本是经过LZW算法编码压缩的，需要该函数进行解码
+</span><span class="c1"></span><span class="k">static</span> <span class="n">u16</span> <span class="nf">GetGifWord</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">ngiflib_decode_context</span> <span class="o">*</span> <span class="n">context</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// 待解码的bits数
+</span><span class="c1"></span>	<span class="n">bits_todo</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">context</span><span class="o">-&gt;</span><span class="n">nbbit</span> <span class="o">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">context</span><span class="o">-&gt;</span><span class="n">restbits</span><span class="p">;</span>
+
+</code></pre></div></li>
+<li>
+<p><code>clr</code>为目前<code>context</code>的最大值，<code>context</code>为LZW算法解码后的字符串</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">clr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="o">-&gt;</span><span class="n">imgbits</span><span class="p">;</span> <span class="c1">// img图的比特数×2
+</span><span class="c1"></span><span class="n">eof</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 该img图结束
+</span><span class="c1"></span><span class="n">free</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 无了
+</span><span class="c1"></span><span class="n">context</span><span class="p">.</span><span class="n">nbbit</span> <span class="o">=</span> <span class="n">i</span><span class="o">-&gt;</span><span class="n">imgbits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="c1">// .max = context比特数×2 - 1
+</span><span class="c1"></span><span class="n">context</span><span class="p">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="n">clr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* (1 &lt;&lt; context.nbbit) - 1 */</span>
+</code></pre></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><code>WritePixel</code>函数在符合if条件的情况下，调用<code>GifIndexToTrueColor</code>函数将<code>v</code>值像素写入缓冲区（ngiflib.c:124）</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">static</span> <span class="kt">void</span> <span class="nf">WritePixel</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">ngiflib_decode_context</span> <span class="o">*</span> <span class="n">context</span><span class="p">,</span> <span class="n">u8</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="nc">ngiflib_gif</span> <span class="o">*</span> <span class="n">p</span> <span class="o">=</span> <span class="n">i</span><span class="o">-&gt;</span><span class="n">parent</span><span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">!=</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">gce</span><span class="p">.</span><span class="n">transparent_color</span> <span class="o">||</span> <span class="o">!</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">gce</span><span class="p">.</span><span class="n">transparent_flag</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">mode</span> <span class="o">&amp;</span> <span class="n">NGIFLIB_MODE_INDEXED</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// ...
+</span><span class="c1"></span>		<span class="k">else</span> 
+			<span class="c1">// frbuff_p指当前在frame buffer中的索引                              
+</span><span class="c1"></span>			<span class="o">*</span><span class="n">context</span><span class="o">-&gt;</span><span class="n">frbuff_p</span><span class="p">.</span><span class="n">p32</span> <span class="o">=</span> <span class="n">GifIndexToTrueColor</span><span class="p">(</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">palette</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+</code></pre></div><ul>
+<li>
+<p>gce为Graphic Control Extension，即图像渲染相关变量存储</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="k">switch</span><span class="p">(</span><span class="n">sign</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// ...
+</span><span class="c1"></span>	<span class="k">case</span> <span class="sc">&#39;!&#39;</span><span class="o">:</span>	<span class="cm">/* Extension introducer 0x21 */</span>
+	<span class="k">while</span><span class="p">(</span> <span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="n">GetByte</span><span class="p">(</span><span class="n">g</span><span class="p">))</span> <span class="p">)</span> <span class="p">{</span>
+		<span class="n">GetByteStr</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+		<span class="k">switch</span><span class="p">(</span><span class="n">id</span><span class="p">)</span> <span class="p">{</span>
+				<span class="k">case</span> <span class="mh">0xF9</span><span class="o">:</span>	<span class="cm">/* Graphic Control Extension */</span>
+					<span class="cm">/* The scope of this extension is the first graphic
+</span><span class="cm">					 * rendering block to follow. */</span>
+					<span class="n">gce</span><span class="p">.</span><span class="n">gce_present</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+					<span class="n">gce</span><span class="p">.</span><span class="n">disposal_method</span> <span class="o">=</span> <span class="p">(</span><span class="n">ext</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>
+					<span class="n">gce</span><span class="p">.</span><span class="n">transparent_flag</span> <span class="o">=</span> <span class="n">ext</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">;</span>
+					<span class="n">gce</span><span class="p">.</span><span class="n">user_input_flag</span> <span class="o">=</span> <span class="p">(</span><span class="n">ext</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">;</span>
+					<span class="n">gce</span><span class="p">.</span><span class="n">delay_time</span> <span class="o">=</span> <span class="n">ext</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">|</span> <span class="p">(</span><span class="n">ext</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">&lt;&lt;</span><span class="mi">8</span><span class="p">);</span>
+					<span class="n">gce</span><span class="p">.</span><span class="n">transparent_color</span> <span class="o">=</span> <span class="n">ext</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="c1">// ...
+</span></code></pre></div></li>
+</ul>
+</li>
+<li>
+<p><code>GifIndexToTrueColor</code>函数中，从该gif的<code>palette</code>中获取索引<code>v</code>对应的<code>rgb</code>格式颜色值，返回32位数据写入<code>frame buffer</code></p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">u32</span> <span class="nf">GifIndexToTrueColor</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_rgb</span> <span class="o">*</span> <span class="n">palette</span><span class="p">,</span> <span class="n">u8</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">palette</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">b</span> <span class="o">|</span> <span class="p">(</span><span class="n">palette</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">g</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">palette</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">r</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ul>
+</li>
+</ul>
+<h3 id="gdb-debug">GDB Debug</h3>
+<blockquote>
+<p>gdb + <a href="https://github.com/pwndbg/pwndbg">https://github.com/pwndbg/pwndbg</a> + <a href="https://github.com/vercel/hyper">https://github.com/vercel/hyper</a> + <a href="https://github.com/bet4it/hyperpwn">https://github.com/bet4it/hyperpwn</a></p>
+</blockquote>
+<p>通过<code>gdb --args SRC_asan/build/bin/gif2tga --outbase /dev/null ./POC_rc-awd-q</code>进行调试。</p>
+<ul>
+<li>
+<p>根据ASAN给出的分析报告(也是上面源码分析的位置)，下断点：</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">pwndbg</span><span class="o">&gt;</span> <span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">gif2tga</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">11</span> <span class="err">#</span> <span class="n">main函数</span>
+<span class="n">pwndbg</span><span class="o">&gt;</span> <span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">gif2tga</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">95</span> <span class="err">#</span> <span class="o">-&gt;</span> <span class="n">LoadGif</span>
+<span class="n">pwndbg</span><span class="o">&gt;</span> <span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">802</span> <span class="err">#</span> <span class="o">-&gt;</span> <span class="n">DecodeGifImg</span>
+<span class="n">pwndbg</span><span class="o">&gt;</span> <span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">537</span> <span class="err">#</span> <span class="o">-&gt;</span> <span class="n">WritePixel</span>
+<span class="n">pwndbg</span><span class="o">&gt;</span> <span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">124</span> <span class="err">#</span> <span class="o">-&gt;</span> <span class="n">GifIndexToTrueColor</span>
+<span class="n">pwndbg</span><span class="o">&gt;</span> <span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">821</span> <span class="err">#</span> <span class="n">in</span> <span class="n">GifIndexToTrueColor</span>
+</code></pre></div><p><img src="https://s2.loli.net/2022/09/23/a9HYcXzdGmUFnsP.png" alt=""></p>
+<ul>
+<li>
+<p>ins</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">gif2tga</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">11</span>
+<span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">gif2tga</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">95</span>
+<span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">802</span> 
+<span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">537</span>
+<span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">124</span> 
+<span class="n">b</span> <span class="n">SRC_asan</span><span class="o">/</span><span class="n">ngiflib</span><span class="p">.</span><span class="nl">c</span><span class="p">:</span><span class="mi">821</span> 
+</code></pre></div></li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="kt">int</span> <span class="nf">LoadGif</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_gif</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">case</span> <span class="mh">0x2C</span><span class="o">:</span>	<span class="cm">/* Image separator */</span>
+			<span class="k">if</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">nimg</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+
+			<span class="c1">//===================
+</span><span class="c1"></span>			<span class="k">if</span> <span class="p">(</span><span class="n">DecodeGifImg</span><span class="p">(</span><span class="n">g</span><span class="o">-&gt;</span><span class="n">cur_img</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+			<span class="n">g</span><span class="o">-&gt;</span><span class="n">nimg</span><span class="o">++</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">DecodeGifImg</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">clr</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="o">-&gt;</span><span class="n">imgbits</span><span class="p">;</span>
+	<span class="n">eof</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	<span class="n">free</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+<span class="k">if</span><span class="p">(</span><span class="n">act_code</span><span class="o">==</span><span class="n">clr</span><span class="p">)</span> <span class="p">{</span>
+			<span class="cm">/* clear */</span>
+			<span class="n">free</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+			<span class="n">context</span><span class="p">.</span><span class="n">nbbit</span> <span class="o">=</span> <span class="n">i</span><span class="o">-&gt;</span><span class="n">imgbits</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+			<span class="n">context</span><span class="p">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">clr</span> <span class="o">+</span> <span class="n">clr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/* (1 &lt;&lt; context.nbbit) - 1 */</span>
+			<span class="n">act_code</span> <span class="o">=</span> <span class="n">GetGifWord</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">context</span><span class="p">);</span>
+			<span class="n">casspecial</span> <span class="o">=</span> <span class="p">(</span><span class="n">u8</span><span class="p">)</span><span class="n">act_code</span><span class="p">;</span>
+			<span class="n">old_code</span> <span class="o">=</span> <span class="n">act_code</span><span class="p">;</span>
+<span class="c1">//========
+</span><span class="c1"></span>			<span class="k">if</span><span class="p">(</span><span class="n">npix</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="n">WritePixel</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">context</span><span class="p">,</span> <span class="n">casspecial</span><span class="p">);</span>
+			<span class="n">npix</span><span class="o">--</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="n">WritePixel</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_img</span> <span class="o">*</span> <span class="n">i</span><span class="p">,</span> <span class="k">struct</span> <span class="nc">ngiflib_decode_context</span> <span class="o">*</span> <span class="n">context</span><span class="p">,</span> <span class="n">u8</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if</span><span class="p">(</span><span class="n">v</span><span class="o">!=</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">gce</span><span class="p">.</span><span class="n">transparent_color</span> <span class="o">||</span> <span class="o">!</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">gce</span><span class="p">.</span><span class="n">transparent_flag</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">GifIndexToTrueColor</span><span class="p">(</span><span class="n">i</span><span class="o">-&gt;</span><span class="n">palette</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+
+<span class="n">u32</span> <span class="n">GifIndexToTrueColor</span><span class="p">(</span><span class="k">struct</span> <span class="nc">ngiflib_rgb</span> <span class="o">*</span> <span class="n">palette</span><span class="p">,</span> <span class="n">u8</span> <span class="n">v</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">palette</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">b</span> <span class="o">|</span> <span class="p">(</span><span class="n">palette</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">g</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">palette</span><span class="p">[</span><span class="n">v</span><span class="p">].</span><span class="n">r</span> <span class="o">&lt;&lt;</span> <span class="mi">16</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></li>
+</ul>
+<h2 id="0x04-漏洞利用">0x04 漏洞利用</h2>
+<h3 id="poc分析">poc分析</h3>
+<p>目前已有poc，通过hexedit工具查看二进制文件：<code>hexedit ./POC_rc-awd-q3 --color</code></p>
+<p><img src="https://s2.loli.net/2022/09/23/E1hbe6F7uO2VNPc.png" alt=""></p>
+<p>共<code>0x40</code>字节</p>
+<ul>
+<li><code>GIF89a</code>开头即<code>47 49 46 38 39 61</code>表示是GIF89a版gif图片，初步认为其是gif图片文件</li>
+<li>接着的<code>20 00</code>和<code>20 00</code>分别为宽和高</li>
+<li>F2</li>
+</ul>
+<hr>
+<h2 id="0xff-参考资料">0xFF 参考资料</h2>
+<p><a href="https://en.wikipedia.org/wiki/GIF">GIF - Wikipedia</a></p>
+<p><a href="https://rangercyh.github.io/LZW%E7%AE%97%E6%B3%95%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%A3%E7%A0%81/">菜鸟浮出水</a></p></article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+</div>
+<script type="application/javascript" src='https://m1nn1e.github.io/js/toc.js'></script>
+<link rel="stylesheet" href='https://m1nn1e.github.io/css/toc.css' />
+
+<style>
+  .container-lg {
+    max-width: 1080px;
+    align-items: center;
+}
+</style>
+</div>
+
+<div>
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='https://m1nn1e.github.io/css/gitalk.css' />
+<script src='https://m1nn1e.github.io/js/gitalk.js'></script>
+
+<script>
+  const gitalk = new Gitalk({
+    clientID: '08b4f959d47f631a12eb',
+    clientSecret: '71249b4d50d71de6d3ae1872579e385ba36eff40',
+    repo: 'm1nn1e.github.io',
+    owner: 'm1nn1e',
+    admin: ['m1nn1e'],
+    id: eval("location.pathname"),
+    distractionFreeMode: false
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"></script>
+<script type="text/javascript">
+  tocbot.init({
+    
+    tocSelector: '.js-toc',
+    
+    contentSelector: '.js-toc-content',
+    
+    headingSelector: 'h2, h3, h4, h5',
+    hasInnerContainers: false,
+  })
+</script>
+
+
+  
+<div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://m1nn1e.github.io/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">
+        
+      This is a <a href='https://github.com/MeiK2333/github-style'>github-style</a> blog...</li>
+      <li class="mr-3 mr-lg-0">> since 2022/5/15</li> 
+      
+    </ul>
+
+    
+    <div class="back-to-top" id="back_to_top">
+      
+
+        
+  <span><i class="fas fa-arrow-up"></i></span> 
+      
+      <span class="scrollpercent">
+         <span id="back_to_top_text">0</span>%
+      </span>
+   </div>
+   
+  </div>
+
+  
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+
+
+<script>
+  let sideBarOpen = 'sidebar-open';
+  let body = document.body;
+  let back2Top = document.querySelector('#back_to_top'),
+     back2TopText = document.querySelector('#back_to_top_text'),
+     drawerBox = document.querySelector('#drawer_box'),
+     rightSideBar = document.querySelector('.sidebar'),
+     viewport = document.querySelector('body');
+
+  function scrollAnimation(currentY, targetY) {
+
+     let needScrollTop = targetY - currentY
+     let _currentY = currentY
+     setTimeout(() => {
+        const dist = Math.ceil(needScrollTop / 10)
+        _currentY += dist
+        window.scrollTo(_currentY, currentY)
+        if (needScrollTop > 10 || needScrollTop < -10) {
+           scrollAnimation(_currentY, targetY)
+        } else {
+           window.scrollTo(_currentY, targetY)
+        }
+     }, 1)
+  }
+
+  back2Top.addEventListener("click", function (e) {
+     scrollAnimation(document.scrollingElement.scrollTop, 0);
+     e.stopPropagation();
+     return false;
+  });
+
+  window.addEventListener('scroll', function (e) {
+     let percent = document.scrollingElement.scrollTop / (document.scrollingElement.scrollHeight - document.scrollingElement.clientHeight) * 100;
+     if (percent > 1 && !back2Top.classList.contains('back-top-active')) {
+        back2Top.classList.add('back-top-active');
+     }
+     if (percent == 0) {
+        back2Top.classList.remove('back-top-active');
+     }
+     if (back2TopText) {
+        back2TopText.textContent = Math.floor(percent);
+     }
+  });
+  let hasCacu = false;
+ window.onresize = function () {
+   calcuHeight();
+ }
+</script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/gh/ITJoker233/ITJoker233.github.io@latest/CDN/js/love.min.js"></script>
+<script type="text/javascript" src="https://demo.hellozwh.com/source/canvas-nest.min.js"></script>
+
+<script type="application/javascript" src="https://m1nn1e.github.io/js/github-style.js"></script>
+
+
+
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>llvm on Minnie Clubhouse</title>
+    <link>https://m1nn1e.github.io/tags/llvm/</link>
+    <description>Recent content in llvm on Minnie Clubhouse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 24 May 2022 19:34:59 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/tags/llvm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从单文件到大型项目如何有效生成llvm bitcode</title>
+      <link>https://m1nn1e.github.io/post/bitcode-gen/</link>
+      <pubDate>Tue, 24 May 2022 19:34:59 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/bitcode-gen/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;生成bitcode文件是能够后续展开分析的前提。&lt;/strong&gt;
+然而llvm的官方文档和通过搜索引擎查找到的教程中鲜少对bitcode的生成，尤其是大项目的bitcode生成进行介绍，在初期摸索时花了不少时间，本篇用来记录自己实际运用到的各种方式和尝试中遇到的问题。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

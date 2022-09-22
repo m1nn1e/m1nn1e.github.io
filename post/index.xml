@@ -6,14 +6,84 @@
     <description>Recent content in Posts on Minnie Clubhouse</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 23 Aug 2022 18:12:48 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Sep 2022 02:10:40 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>2023届秋招面经汇总</title>
-      <link>https://m1nn1e.github.io/post/2023%E5%B1%8A%E7%A7%8B%E6%8B%9B%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/</link>
+      <title>渗透测试行为清单</title>
+      <link>https://m1nn1e.github.io/post/pentest_list/</link>
+      <pubDate>Sat, 10 Sep 2022 02:10:40 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/pentest_list/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;渗透测试简单来说是安全人员模拟黑客入侵的方式，评估目标安全防御能力的行为。根据测试人员获取信息的多少，可分为黑盒、白盒、灰盒三种类型。（ING）&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>2023秋招面经</title>
+      <link>https://m1nn1e.github.io/post/interview_2023/</link>
       <pubDate>Tue, 23 Aug 2022 18:12:48 +0800</pubDate>
       
-      <guid>https://m1nn1e.github.io/post/2023%E5%B1%8A%E7%A7%8B%E6%8B%9B%E9%9D%A2%E7%BB%8F%E6%B1%87%E6%80%BB/</guid>
-      <description>紧张的秋招</description>
+      <guid>https://m1nn1e.github.io/post/interview_2023/</guid>
+      <description>OTHERS  收集各个渠道的相关面经
+ SELF  等结束再说。。失业危机了属于是
+ </description>
+    </item>
+    
+    <item>
+      <title>[论文笔记] GFuzz</title>
+      <link>https://m1nn1e.github.io/post/gfuzz/</link>
+      <pubDate>Mon, 18 Jul 2022 09:39:28 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/gfuzz/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Title:&lt;/strong&gt; Who Goes First? Detecting Go Concurrency Bugs via Message Reordering&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt; GFuzz&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Journal/Conference:&lt;/strong&gt; ASPLOS&#39;22&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://songlh.github.io/paper/gfuzz.pdf&#34;&gt;PDF&lt;/a&gt; | &lt;a href=&#34;https://www.youtube.com/watch?v=-m632JS0f20&#34;&gt;VIDEO&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>GifIndexToTrueColor某堆溢出漏洞分析</title>
+      <link>https://m1nn1e.github.io/post/gifindextotruecolor/</link>
+      <pubDate>Thu, 14 Jul 2022 12:09:13 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/gifindextotruecolor/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;漏洞描述&lt;/strong&gt;: 索引方式的gif图转成true color(rgb)格式时由于&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;状态:&lt;/strong&gt; 分析中&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;类型:&lt;/strong&gt; heap, 堆溢出&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>CVE-2021-3156: Sudo堆溢出提权漏洞分析</title>
+      <link>https://m1nn1e.github.io/post/cve-2021-3156/</link>
+      <pubDate>Thu, 23 Jun 2022 18:12:48 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/cve-2021-3156/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;漏洞描述:  Baron Samedit [sudo in linux]&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>40%配列机械键盘是神</title>
+      <link>https://m1nn1e.github.io/post/40percent-keyboard/</link>
+      <pubDate>Tue, 24 May 2022 20:27:01 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/40percent-keyboard/</guid>
+      <description>&lt;p&gt;在实际入了40%配列键盘以前，还真没有想过它会成为日常使用(包括coding)的主力键盘。到手了之后就非常喜欢，除了第一天via研究怎么安排层级和记住键位花了些时间需要点学习成本外，事实证明它真的很好用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>从单文件到大型项目如何有效生成llvm bitcode</title>
+      <link>https://m1nn1e.github.io/post/bitcode-gen/</link>
+      <pubDate>Tue, 24 May 2022 19:34:59 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/bitcode-gen/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;生成bitcode文件是能够后续展开分析的前提。&lt;/strong&gt;
+然而llvm的官方文档和通过搜索引擎查找到的教程中鲜少对bitcode的生成，尤其是大项目的bitcode生成进行介绍，在初期摸索时花了不少时间，本篇用来记录自己实际运用到的各种方式和尝试中遇到的问题。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +101,7 @@
       <pubDate>Tue, 10 May 2022 21:14:30 +0800</pubDate>
       
       <guid>https://m1nn1e.github.io/post/vim-usage/</guid>
-      <description>&lt;p&gt;在刷算法的时候发现采用vim键盘方式码代码的大佬意外地多，之前总学了忘，考虑这次总结一些按自己的使用习惯来说常用的.&lt;/p&gt;</description>
+      <description>&lt;p&gt;在刷算法的时候发现采用vim键盘方式码代码方便很多，之前总学了忘，考虑这次总结一些按自己的使用习惯来说常用的.&lt;/p&gt;</description>
     </item>
     
   </channel>

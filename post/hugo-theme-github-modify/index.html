@@ -1,53 +1,82 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <script type="application/javascript" src='https://m1nn1e.github.io/js/theme-mode.js'></script>
-    <link rel="stylesheet" href='https://m1nn1e.github.io/css/frameworks.min.css' />
-    <link rel="stylesheet" href='https://m1nn1e.github.io/css/github.min.css' />
-    <link rel="stylesheet" href='https://m1nn1e.github.io/css/github-style.css' />
-    <link rel="stylesheet" href='https://m1nn1e.github.io/css/light.css' />
-    <link rel="stylesheet" href='https://m1nn1e.github.io/css/dark.css' />
-    <link rel="stylesheet" href='https://m1nn1e.github.io/css/syntax.css' />
-    <title>Hugo主题github-style的优化全记录 - Minnie Clubhouse</title>
-    
-    <link rel="icon" type="image/x-icon" href='/images/github.png'>
-    
-    <meta name="theme-color" content="#1e2327">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <script
+    type="application/javascript"
+    src='https://m1nn1e.github.io/js/theme-mode.js'
+  ></script>
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/frameworks.min.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/github.min.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/github-style.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/light.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/dark.css' />
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/syntax.css' />
+  
+  <link rel="stylesheet" href='https://m1nn1e.github.io/css/tocbot.css' />
 
-    
-    <meta name="description"
+  <title>
+    Hugo主题github-style的优化全记录 - Minnie Clubhouse
+  </title>
+  
+  <link rel="icon" type="image/x-icon" href="/images/github.png" />
+  
+  <meta name="theme-color" content="#1e2327" />
+
+  
+  <meta
+  name="description"
   content="github-style是最近发现的可爱主题，仿造github的个人主页构建博客，个人非常喜欢！但该项目的各种功能较精简，正好借此机会熟悉一下hugo的主题构建，加上一些花里胡哨的美化优化✨
-" />
-<meta name="keywords"
-  content='blog, pwn,  security, binary' />
+"
+/>
+<meta
+  name="keywords"
+  content='blog, security, binary, OS'
+/>
 <meta name="robots" content="noodp" />
 <link rel="canonical" href="https://m1nn1e.github.io/post/hugo-theme-github-modify/" />
 
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="Hugo主题github-style的优化全记录 - Minnie Clubhouse" />
-<meta name="twitter:description"
+<meta
+  name="twitter:title"
+  content="Hugo主题github-style的优化全记录 - Minnie Clubhouse"
+/>
+<meta
+  name="twitter:description"
   content="github-style是最近发现的可爱主题，仿造github的个人主页构建博客，个人非常喜欢！但该项目的各种功能较精简，正好借此机会熟悉一下hugo的主题构建，加上一些花里胡哨的美化优化✨
-" />
+"
+/>
 <meta name="twitter:site" content="https://m1nn1e.github.io/" />
 <meta name="twitter:creator" content="" />
-<meta name="twitter:image"
-  content="https://m1nn1e.github.io/">
+<meta
+  name="twitter:image"
+  content="https://m1nn1e.github.io/"
+/>
 
 
-<meta property="og:type" content="article" />
-<meta property="og:title" content="Hugo主题github-style的优化全记录 - Minnie Clubhouse">
-<meta property="og:description"
+<meta
+  property="og:type"
+  content="article"
+/>
+<meta
+  property="og:title"
+  content="Hugo主题github-style的优化全记录 - Minnie Clubhouse"
+/>
+<meta
+  property="og:description"
   content="github-style是最近发现的可爱主题，仿造github的个人主页构建博客，个人非常喜欢！但该项目的各种功能较精简，正好借此机会熟悉一下hugo的主题构建，加上一些花里胡哨的美化优化✨
-" />
+"
+/>
 <meta property="og:url" content="https://m1nn1e.github.io/post/hugo-theme-github-modify/" />
 <meta property="og:site_name" content="Hugo主题github-style的优化全记录" />
-<meta property="og:image"
-  content="https://m1nn1e.github.io/">
-<meta property="og:image:width" content="2048">
-<meta property="og:image:height" content="1024">
+<meta
+  property="og:image"
+  content="https://m1nn1e.github.io/"
+/>
+<meta property="og:image:width" content="2048" />
+<meta property="og:image:height" content="1024" />
 
 <meta property="article:published_time" content="2022-05-15 22:19:13 &#43;0800 CST" />
 
@@ -60,7 +89,9 @@
 
 
 
+
 </head>
+
 
 <body>
   <div style="position: relative">
@@ -125,8 +156,7 @@
     </div>
   </header>
 </div>
-  
-<div style="position: relative">
+   <div style="position: relative">
     <main>
         <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
             <div class="px-0">
@@ -153,9 +183,9 @@
 
       
       <span class="file-info-divider"></span>
-      Modified <relative-time datetime="Sun, 15 May 2022 22:48:25 &#43;0800"
+      Modified <relative-time datetime="Fri, 23 Sep 2022 05:29:28 &#43;0800"
         class="no-wrap">
-        Sun, 15 May 2022 22:48:25 &#43;0800</relative-time>
+        Fri, 23 Sep 2022 05:29:28 &#43;0800</relative-time>
       
     </div>
   </div>
@@ -165,9 +195,10 @@
 </div>
 </div>
 </main>
-</div>
-
-<div>
+</div> 
+<div class="js-toc-content">
+  
+  <div style="position: relative;">
           <div class="container-lg px-3 new-discussion-timeline" >
             
             <div class="repository-content gist-content">
@@ -189,7 +220,7 @@
                               </div>
                             </div>
                           </details-menu>
-                            707 Words
+                            797 Words
                           
       
                         </div>
@@ -205,13 +236,13 @@
                             blog
                           </a>
                           
-                          <a class="muted-link mr-3" href="/tags/frontend">
+                          <a class="muted-link mr-3" href="/tags/hugo">
                             <svg class="octicon octicon-tag" viewBox="0 0 16 16" version="1.1" width="16" height="16">
                               <path fill-rule="evenodd"
                                 d="M2.5 7.775V2.75a.25.25 0 01.25-.25h5.025a.25.25 0 01.177.073l6.25 6.25a.25.25 0 010 .354l-5.025 5.025a.25.25 0 01-.354 0l-6.25-6.25a.25.25 0 01-.073-.177zm-1.5 0V2.75C1 1.784 1.784 1 2.75 1h5.025c.464 0 .91.184 1.238.513l6.25 6.25a1.75 1.75 0 010 2.474l-5.026 5.026a1.75 1.75 0 01-2.474 0l-6.25-6.25A1.75 1.75 0 011 7.775zM6 5a1 1 0 100 2 1 1 0 000-2z">
                               </path>
                             </svg>
-                            frontend
+                            hugo
                           </a>
                           
                           
@@ -220,18 +251,31 @@
                     </div>
       
       
-                    <div class="Box-body px-5 pb-5" style="z-index: 1; padding: 5% 5%;">
+                    <div class="Box-body px-5 pb-5" style="z-index: 1">
                       <article class="markdown-body entry-content container-lg"><p>github-style是最近发现的可爱主题，仿造github的个人主页构建博客，个人非常喜欢！但该项目的各种功能较精简，正好借此机会熟悉一下hugo的主题构建，加上一些花里胡哨的美化优化✨</p>
 <h2 id="功能优化">功能优化</h2>
+<h3 id="新增双栏模式">新增双栏模式</h3>
+<h3 id="markdown主题格式">Markdown主题格式</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 图片大小！现在的体验不太好</li>
+<li><input disabled="" type="checkbox"> 修改成其他css效果</li>
+</ul>
 <h3 id="博文页标题添加breadcrumbs面包屑跳转">博文页标题添加breadcrumbs面包屑跳转</h3>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> 已完成～</li>
+</ul>
 <h3 id="博文页添加目录toc">博文页添加目录TOC</h3>
 <h3 id="固定侧边栏">固定侧边栏</h3>
 <h3 id="增加tags栏">增加Tags栏</h3>
 <h3 id="增加tags页面">增加Tags页面</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 目前Tags页面的格式和Posts相同</li>
+<li><input disabled="" type="checkbox"> Tag Created日期修改</li>
+<li><input disabled="" type="checkbox"> 宽度变窄时Tags选项的消失</li>
+</ul>
 <h3 id="增加分类categories">增加分类Categories</h3>
 <h3 id="更改搜索search方式">更改搜索search方式</h3>
 <h3 id="添加about关于我页面">添加About关于我页面</h3>
-<h3 id="heading"></h3>
 <h2 id="beautify">Beautify</h2>
 <h3 id="全局字体更改">全局字体更改</h3>
 <p>即然用了这么geek的主题，改成mono字体看起来的效果会更舒服，此处我改成了Menlo字体。</p>
@@ -298,29 +342,22 @@
           </div>
 
 </div>
-
 <script type="application/javascript" src='https://m1nn1e.github.io/js/toc.js'></script>
 <link rel="stylesheet" href='https://m1nn1e.github.io/css/toc.css' />
 
 <style>
   .container-lg {
-    position: center;
-    margin-left: 10px;
-     
+    max-width: 1080px;
+    align-items: center;
 }
 </style>
-
-    
-    
-    <div>
-    
-    </div>
-      
 </div>
 
+<div>
 <div id="gitalk-container" class="gitalk-container"></div>
-<link rel="stylesheet" href='https://m1nn1e.github.io/css/gitalk.css'>
-<script src='https://m1nn1e.github.io/js/gitalk.min.js'></script>
+<link rel="stylesheet" href='https://m1nn1e.github.io/css/gitalk.css' />
+<script src='https://m1nn1e.github.io/js/gitalk.js'></script>
+
 <script>
   const gitalk = new Gitalk({
     clientID: '08b4f959d47f631a12eb',
@@ -328,12 +365,26 @@
     repo: 'm1nn1e.github.io',
     owner: 'm1nn1e',
     admin: ['m1nn1e'],
-    id: eval("location.pathname"), 
-    distractionFreeMode: false 
+    id: eval("location.pathname"),
+    distractionFreeMode: false
   });
   (function() {
     gitalk.render('gitalk-container');
   })();
+</script>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js"></script>
+<script type="text/javascript">
+  tocbot.init({
+    
+    tocSelector: '.js-toc',
+    
+    contentSelector: '.js-toc-content',
+    
+    headingSelector: 'h2, h3, h4, h5',
+    hasInnerContainers: false,
+  })
 </script>
 
 

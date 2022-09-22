@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Frontend on Minnie Clubhouse</title>
+    <link>https://m1nn1e.github.io/categories/frontend/</link>
+    <description>Recent content in Frontend on Minnie Clubhouse</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 15 May 2022 22:19:13 +0800</lastBuildDate><atom:link href="https://m1nn1e.github.io/categories/frontend/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hugo主题github-style的优化全记录</title>
+      <link>https://m1nn1e.github.io/post/hugo-theme-github-modify/</link>
+      <pubDate>Sun, 15 May 2022 22:19:13 +0800</pubDate>
+      
+      <guid>https://m1nn1e.github.io/post/hugo-theme-github-modify/</guid>
+      <description>&lt;p&gt;github-style是最近发现的可爱主题，仿造github的个人主页构建博客，个人非常喜欢！但该项目的各种功能较精简，正好借此机会熟悉一下hugo的主题构建，加上一些花里胡哨的美化优化✨&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
